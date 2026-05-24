@@ -8,37 +8,53 @@ export default async function LoginPage({
   const { error, next } = await searchParams;
 
   return (
-    <section className="max-w-sm mx-auto mt-12">
-      <h1 className="text-2xl font-bold mb-6">Manager login</h1>
-      <form action={loginAction} className="space-y-4">
+    <section className="max-w-md mx-auto mt-8 md:mt-16">
+      <div className="text-center mb-10">
+        <p className="text-[10px] uppercase tracking-[0.5em] text-flame mb-3">Staff Entry</p>
+        <h1 className="display text-6xl md:text-7xl text-paper">Manager</h1>
+        <p className="text-[10px] uppercase tracking-[0.4em] text-mute mt-3">
+          Quiniela 26 · Authorized only
+        </p>
+      </div>
+
+      <form
+        action={loginAction}
+        className="border border-edge bg-coal p-7 md:p-8 space-y-5 relative pitch-bg"
+      >
         <input type="hidden" name="next" value={next ?? "/admin"} />
         <div>
-          <label className="block text-sm font-medium mb-1">Username</label>
+          <label className="block text-[10px] uppercase tracking-[0.4em] text-mute mb-2">
+            User
+          </label>
           <input
             name="user"
             autoComplete="username"
             required
-            className="w-full border border-neutral-300 dark:border-neutral-700 rounded px-3 py-2 bg-white dark:bg-neutral-900"
+            className="w-full bg-ink border border-edge focus:border-flame text-paper px-3 py-3 outline-none transition"
           />
         </div>
         <div>
-          <label className="block text-sm font-medium mb-1">Password</label>
+          <label className="block text-[10px] uppercase tracking-[0.4em] text-mute mb-2">
+            Password
+          </label>
           <input
             name="pass"
             type="password"
             autoComplete="current-password"
             required
-            className="w-full border border-neutral-300 dark:border-neutral-700 rounded px-3 py-2 bg-white dark:bg-neutral-900"
+            className="w-full bg-ink border border-edge focus:border-flame text-paper px-3 py-3 outline-none transition"
           />
         </div>
         {error && (
-          <p className="text-sm text-red-600">Invalid credentials.</p>
+          <div className="text-[10px] uppercase tracking-[0.4em] text-clay border-l-2 border-clay pl-3 py-1">
+            Access denied
+          </div>
         )}
         <button
           type="submit"
-          className="w-full bg-neutral-900 dark:bg-neutral-100 text-white dark:text-neutral-900 rounded px-3 py-2 font-medium"
+          className="display block w-full text-lg bg-flame text-ink py-3 hover:bg-paper transition tracking-[0.2em]"
         >
-          Sign in
+          Enter
         </button>
       </form>
     </section>

@@ -13,34 +13,49 @@ export default async function ParticipantsPage() {
 
   return (
     <section>
-      <h1 className="text-2xl font-bold mb-6">Participants ({participants.length})</h1>
+      <header className="flex items-end justify-between mb-10 border-b border-edge pb-4">
+        <div>
+          <p className="text-[10px] uppercase tracking-[0.5em] text-flame mb-2">The Pool</p>
+          <h1 className="display text-5xl md:text-7xl text-paper leading-none">Participants</h1>
+        </div>
+        <div className="text-right">
+          <div className="score-num text-3xl md:text-5xl text-flame leading-none">
+            {participants.length}
+          </div>
+          <div className="text-[10px] uppercase tracking-[0.4em] text-mute mt-1">total</div>
+        </div>
+      </header>
 
-      <div className="grid md:grid-cols-2 gap-6 mb-8">
-        <form action={addParticipantAction} className="flex gap-2">
-          <input
-            name="name"
-            placeholder="New participant name"
-            required
-            className="flex-1 border border-neutral-300 dark:border-neutral-700 rounded px-3 py-2 bg-white dark:bg-neutral-900"
-          />
-          <button
-            type="submit"
-            className="bg-neutral-900 dark:bg-neutral-100 text-white dark:text-neutral-900 rounded px-4 py-2 font-medium"
-          >
-            Add
-          </button>
+      <div className="grid lg:grid-cols-2 gap-3 mb-12">
+        <form action={addParticipantAction} className="border border-edge bg-coal p-5">
+          <div className="text-[10px] uppercase tracking-[0.4em] text-flame mb-3">Add one</div>
+          <div className="flex gap-2">
+            <input
+              name="name"
+              placeholder="Name"
+              required
+              className="flex-1 bg-ink border border-edge focus:border-flame text-paper px-3 py-2 outline-none transition"
+            />
+            <button
+              type="submit"
+              className="display tracking-[0.15em] bg-flame text-ink px-5 py-2 hover:bg-paper transition"
+            >
+              Add
+            </button>
+          </div>
         </form>
 
-        <form action={bulkAddParticipantsAction} className="flex flex-col gap-2">
+        <form action={bulkAddParticipantsAction} className="border border-edge bg-coal p-5">
+          <div className="text-[10px] uppercase tracking-[0.4em] text-flame mb-3">Bulk add</div>
           <textarea
             name="names"
-            placeholder="Paste names — one per line or comma-separated"
             rows={3}
-            className="border border-neutral-300 dark:border-neutral-700 rounded px-3 py-2 bg-white dark:bg-neutral-900 text-sm"
+            placeholder="One name per line, or comma-separated"
+            className="w-full bg-ink border border-edge focus:border-flame text-paper px-3 py-2 outline-none transition text-sm resize-none"
           />
           <button
             type="submit"
-            className="self-start text-sm border border-neutral-300 dark:border-neutral-700 rounded px-3 py-2"
+            className="mt-2 display tracking-[0.15em] bg-paper text-ink px-4 py-2 hover:bg-flame transition text-sm"
           >
             Bulk add
           </button>
@@ -48,26 +63,43 @@ export default async function ParticipantsPage() {
       </div>
 
       {participants.length === 0 ? (
-        <p className="text-neutral-500">No participants yet.</p>
+        <div className="border border-edge bg-coal px-6 py-12 text-center">
+          <p className="display text-2xl text-mute">Empty roster</p>
+          <p className="text-[10px] uppercase tracking-[0.4em] text-mute mt-2">
+            Add the first names above
+          </p>
+        </div>
       ) : (
-        <ul className="border border-neutral-200 dark:border-neutral-800 rounded-lg divide-y divide-neutral-200 dark:divide-neutral-800">
-          {participants.map((p) => (
-            <li key={p.id} className="flex items-center gap-2 px-3 py-2">
-              <form action={renameParticipantAction} className="flex-1 flex gap-2">
+        <ul className="border border-edge bg-coal/40">
+          {participants.map((p, i) => (
+            <li
+              key={p.id}
+              className="flex items-center gap-3 px-4 py-3 border-b border-edge last:border-b-0 group"
+            >
+              <span className="score-num text-xs text-mute w-7 text-right">
+                {(i + 1).toString().padStart(2, "0")}
+              </span>
+              <form action={renameParticipantAction} className="flex-1 flex gap-2 items-center">
                 <input type="hidden" name="id" value={p.id} />
                 <input
                   name="name"
                   defaultValue={p.name}
-                  className="flex-1 bg-transparent border-b border-transparent focus:border-neutral-300 dark:focus:border-neutral-700 px-1 py-1 outline-none"
+                  className="flex-1 bg-transparent text-paper border-b border-transparent focus:border-flame outline-none py-1"
                 />
-                <button type="submit" className="text-xs text-neutral-500 hover:underline">
+                <button
+                  type="submit"
+                  className="text-[10px] uppercase tracking-[0.3em] text-mute hover:text-flame transition"
+                >
                   Save
                 </button>
               </form>
               <form action={deleteParticipantAction}>
                 <input type="hidden" name="id" value={p.id} />
-                <button type="submit" className="text-xs text-red-600 hover:underline">
-                  Delete
+                <button
+                  type="submit"
+                  className="text-[10px] uppercase tracking-[0.3em] text-mute hover:text-clay transition"
+                >
+                  Remove
                 </button>
               </form>
             </li>

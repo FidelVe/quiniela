@@ -1,9 +1,88 @@
 @import "tailwindcss";
 
+@theme {
+  --color-ink: #08090a;
+  --color-coal: #11141a;
+  --color-edge: #22272f;
+  --color-paper: #f4ead0;
+  --color-bone: #c9c2ac;
+  --color-mute: #6f6a5f;
+  --color-flame: #ff6a1f;
+  --color-jade: #2dd4a2;
+  --color-clay: #c84a2f;
+  --color-blood: #8b1d24;
+
+  --font-sans: var(--font-geist), system-ui, sans-serif;
+  --font-display: var(--font-display-face), Impact, sans-serif;
+  --font-mono: var(--font-mono-face), ui-monospace, monospace;
+}
+
 :root {
-  color-scheme: light dark;
+  color-scheme: dark;
+}
+
+html, body {
+  background: var(--color-ink);
+  color: var(--color-paper);
 }
 
 body {
-  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  background-image:
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(255, 106, 31, 0.06), transparent 60%),
+    radial-gradient(ellipse 60% 50% at 50% 110%, rgba(45, 212, 162, 0.04), transparent 60%);
+  background-attachment: fixed;
+}
+
+@keyframes ticker-scroll {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(-50%, 0, 0); }
+}
+
+@utility ticker-anim {
+  animation: ticker-scroll 50s linear infinite;
+}
+
+@utility display {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  letter-spacing: 0.005em;
+  font-weight: 900;
+  line-height: 0.85;
+  font-stretch: condensed;
+}
+
+@utility score-num {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1, "zero" 1;
+}
+
+@utility glow-jade {
+  text-shadow:
+    0 0 12px rgba(45, 212, 162, 0.55),
+    0 0 28px rgba(45, 212, 162, 0.25);
+}
+
+@utility glow-flame {
+  text-shadow:
+    0 0 18px rgba(255, 106, 31, 0.45),
+    0 0 36px rgba(255, 106, 31, 0.18);
+}
+
+/* Subtle field-light glow on dark surfaces */
+@utility pitch-bg {
+  position: relative;
+  isolation: isolate;
+}
+.pitch-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 70% 40% at 50% 0%, rgba(45, 212, 162, 0.05), transparent 70%),
+    radial-gradient(ellipse 70% 40% at 50% 100%, rgba(255, 106, 31, 0.05), transparent 70%);
+  z-index: -1;
+  pointer-events: none;
 }

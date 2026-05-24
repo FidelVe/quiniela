@@ -11,56 +11,69 @@ export default async function AdminMatchesPage() {
     predictionCountsByMatch(),
   ]);
   const participantCount = participants.length;
+  const finished = matches.filter((m) => m.status === "finished").length;
 
   return (
     <section>
-      <h1 className="text-2xl font-bold mb-6">Matches</h1>
-      <div className="border border-neutral-200 dark:border-neutral-800 rounded-lg overflow-hidden">
-        <table className="w-full text-sm">
-          <thead className="bg-neutral-100 dark:bg-neutral-900 text-left">
-            <tr>
-              <th className="px-3 py-2">Match</th>
-              <th className="px-3 py-2">Kickoff</th>
-              <th className="px-3 py-2 text-right">Predictions</th>
-              <th className="px-3 py-2 text-right">Result</th>
-            </tr>
-          </thead>
-          <tbody>
-            {matches.map((m) => {
-              const n = counts.get(m.id) ?? 0;
-              return (
-                <tr
-                  key={m.id}
-                  className="border-t border-neutral-200 dark:border-neutral-800"
-                >
-                  <td className="px-3 py-2">
-                    <Link
-                      href={`/admin/matches/${m.id}`}
-                      className="hover:underline"
-                    >
-                      <span className="text-xs text-neutral-500 mr-2">{m.group}</span>
-                      {m.home_team} vs {m.away_team}
-                    </Link>
-                  </td>
-                  <td className="px-3 py-2 text-neutral-500 text-xs">
+      <header className="flex items-end justify-between mb-10 border-b border-edge pb-4">
+        <div>
+          <p className="text-[10px] uppercase tracking-[0.5em] text-flame mb-2">All Fixtures</p>
+          <h1 className="display text-5xl md:text-7xl text-paper leading-none">Matches</h1>
+        </div>
+        <div className="text-right text-[10px] uppercase tracking-[0.3em] text-mute">
+          <p>{matches.length} total</p>
+          <p className="mt-1 text-jade">{finished} played</p>
+        </div>
+      </header>
+
+      <ul className="border-t border-edge">
+        {matches.map((m) => {
+          const n = counts.get(m.id) ?? 0;
+          const allEntered = participantCount > 0 && n === participantCount;
+          const isFinished = m.status === "finished";
+          return (
+            <li key={m.id} className="border-b border-edge group">
+              <Link
+                href={`/admin/matches/${m.id}`}
+                className="grid grid-cols-[2.5rem_1fr_auto] md:grid-cols-[2.5rem_1fr_auto_5rem] gap-3 md:gap-5 items-center px-2 py-3 hover:bg-coal transition"
+              >
+                <span className="display flex items-center justify-center w-9 h-9 border border-edge bg-coal text-flame text-base">
+                  {m.group}
+                </span>
+                <div className="min-w-0">
+                  <div className="text-paper group-hover:text-flame transition truncate text-sm md:text-base">
+                    {m.home_team} <span className="text-mute text-xs">vs</span> {m.away_team}
+                  </div>
+                  <div className="text-[10px] uppercase tracking-[0.3em] text-mute mt-0.5">
                     {formatKickoffFull(m.kickoff_at)}
-                  </td>
-                  <td className="px-3 py-2 text-right text-xs">
-                    {n} / {participantCount}
-                  </td>
-                  <td className="px-3 py-2 text-right font-mono">
-                    {m.status === "finished" ? (
-                      `${m.home_score}–${m.away_score}`
-                    ) : (
-                      <span className="text-neutral-400">—</span>
-                    )}
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </div>
+                  </div>
+                </div>
+                <div className="text-right text-xs flex items-center gap-2">
+                  <span
+                    className={`score-num ${allEntered ? "text-jade" : n > 0 ? "text-paper" : "text-mute"}`}
+                  >
+                    {n}
+                  </span>
+                  <span className="text-mute">/ {participantCount}</span>
+                </div>
+                <div className="hidden md:block score-num text-right">
+                  {isFinished ? (
+                    <span className="text-jade">
+                      {m.home_score}
+                      <span className="text-edge mx-1">–</span>
+                      {m.away_score}
+                    </span>
+                  ) : (
+                    <span className="text-mute text-[10px] uppercase tracking-[0.3em]">
+                      Scheduled
+                    </span>
+                  )}
+                </div>
+              </Link>
+            </li>
+          );
+        })}
+      </ul>
     </section>
   );
 }
