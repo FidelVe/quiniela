@@ -8,8 +8,8 @@ export type ActionState =
   | { ok: false; error: string }
   | null;
 
-function parseScore(v: FormDataEntryValue | null): number | null {
-  if (v === null) return null;
+function parseScore(v: unknown): number | null {
+  if (v === null || v === undefined) return null;
   const s = String(v).trim();
   if (s === "") return null;
   const n = Number(s);
@@ -104,6 +104,49 @@ export async function clearMatchResultAction(matchId: number): Promise<void> {
     `UPDATE matches SET home_score = NULL, away_score = NULL, status = 'scheduled' WHERE id = $1`,
     [matchId]
   );
+  revalidateMatch(matchId);
+}
+
+export async function saveMatchResultAction(
+  matchId: number,
+  homeStr: string,
+  awayStr: string
+): Promise<void> {
+  if (!matchId) return;
+  const h = parseScore(homeStr);
+  const a = parseScore(awayStr);
+  const status = h !== null && a !== null ? "finished" : "scheduled";
+  await query(
+    `UPDATE matches SET home_score = $1, away_score = $2, status = $3 WHERE id = $4`,
+    [h, a, status, matchId]
+  );
+  revalidateMatch(matchId);
+}
+
+export async function savePredictionAction(
+  matchId: number,
+  participantId: number,
+  homeStr: string,
+  awayStr: string
+): Promise<void> {
+  if (!matchId || !participantId) return;
+  const h = parseScore(homeStr);
+  const a = parseScore(awayStr);
+  if (h === null && a === null) {
+    await query(
+      `DELETE FROM predictions WHERE participant_id = $1 AND match_id = $2`,
+      [participantId, matchId]
+    );
+  } else if (h !== null && a !== null) {
+    await query(
+      `INSERT INTO predictions (participant_id, match_id, home_score, away_score)
+       VALUES ($1, $2, $3, $4)
+       ON CONFLICT (participant_id, match_id)
+       DO UPDATE SET home_score = EXCLUDED.home_score, away_score = EXCLUDED.away_score`,
+      [participantId, matchId, h, a]
+    );
+  }
+  // If only one of the two is provided, ignore.
   revalidateMatch(matchId);
 }
 

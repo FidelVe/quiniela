@@ -89,18 +89,32 @@ interface LeaderboardRowRaw {
 }
 
 export async function leaderboard(): Promise<LeaderboardRow[]> {
+  // Scoring (additive):
+  //   - Correct win/loss outcome    → +1
+  //   - Correct tie outcome         → +2
+  //   - Exact score (bonus)         → +4 on top of the outcome points
   const { rows } = await query<LeaderboardRowRaw>(`
     SELECT
       p.id AS participant_id,
       p.name,
-      COALESCE(SUM(CASE
-        WHEN m.status = 'finished'
-         AND m.home_score = pr.home_score
-         AND m.away_score = pr.away_score THEN 4
-        WHEN m.status = 'finished'
-         AND SIGN(pr.home_score - pr.away_score) = SIGN(m.home_score - m.away_score) THEN 1
-        ELSE 0
-      END), 0)::int AS points,
+      COALESCE(SUM(
+        CASE
+          WHEN m.status = 'finished'
+               AND m.home_score = m.away_score
+               AND pr.home_score = pr.away_score THEN 2
+          WHEN m.status = 'finished'
+               AND m.home_score <> m.away_score
+               AND SIGN(pr.home_score - pr.away_score) = SIGN(m.home_score - m.away_score) THEN 1
+          ELSE 0
+        END
+        +
+        CASE
+          WHEN m.status = 'finished'
+               AND m.home_score = pr.home_score
+               AND m.away_score = pr.away_score THEN 4
+          ELSE 0
+        END
+      ), 0)::int AS points,
       COALESCE(SUM(CASE
         WHEN m.status = 'finished'
          AND m.home_score = pr.home_score

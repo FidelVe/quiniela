@@ -7,6 +7,8 @@ import { SaveForm } from "@/components/save-form";
 import { SaveButton } from "@/components/save-button";
 import { ClearResultButton } from "@/components/clear-result-button";
 import { ClearRowButton } from "@/components/clear-row-button";
+import { ResultSaveButton } from "@/components/result-save-button";
+import { RowSaveButton } from "@/components/row-save-button";
 
 export const dynamic = "force-dynamic";
 
@@ -52,11 +54,17 @@ export default async function AdminMatchEditorPage({
               <div className="text-[10px] uppercase tracking-[0.4em] text-flame">
                 Resultado final · Grupo {match.group} · {formatKickoffFull(match.kickoff_at)}
               </div>
-              <ClearResultButton
-                matchId={match.id}
-                hasResult={hasResult}
-                inputNames={["result_home", "result_away"]}
-              />
+              <div className="flex gap-2">
+                <ResultSaveButton
+                  matchId={match.id}
+                  inputNames={["result_home", "result_away"]}
+                />
+                <ClearResultButton
+                  matchId={match.id}
+                  hasResult={hasResult}
+                  inputNames={["result_home", "result_away"]}
+                />
+              </div>
             </div>
             <div className="grid grid-cols-[1fr_auto_auto_auto_1fr] items-center gap-2 md:gap-6">
               <div className="display text-xl md:text-4xl text-paper text-right truncate">
@@ -110,7 +118,7 @@ export default async function AdminMatchEditorPage({
                 <li
                   key={p.id}
                   data-row
-                  className="grid grid-cols-[2rem_1fr_auto_auto_auto_auto] items-center gap-2 md:gap-4 px-2 py-2 border-b border-edge hover:bg-coal/60 transition"
+                  className="grid grid-cols-[2rem_1fr_auto_auto_auto_auto_auto] items-center gap-2 md:gap-3 px-2 py-2 border-b border-edge hover:bg-coal/60 transition"
                 >
                   <span className="score-num text-[10px] text-mute text-right">
                     {(i + 1).toString().padStart(2, "0")}
@@ -126,6 +134,11 @@ export default async function AdminMatchEditorPage({
                     key={`a-${p.id}-${predVersion}`}
                     name={`pred_${p.id}_away`}
                     defaultValue={pred?.away_score}
+                  />
+                  <RowSaveButton
+                    matchId={match.id}
+                    participantId={p.id}
+                    inputNames={[`pred_${p.id}_home`, `pred_${p.id}_away`]}
                   />
                   <ClearRowButton
                     matchId={match.id}
