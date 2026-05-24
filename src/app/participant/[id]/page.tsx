@@ -31,26 +31,26 @@ export default async function ParticipantPage({ params }: { params: Promise<{ id
         href="/"
         className="text-[10px] uppercase tracking-[0.4em] text-mute hover:text-flame transition"
       >
-        ← Standings
+        ← Posiciones
       </Link>
 
       {/* Header card */}
       <div className="relative my-6 md:my-10 border border-edge bg-coal overflow-hidden pitch-bg">
         <div className="p-6 md:p-12">
-          <p className="text-[10px] uppercase tracking-[0.5em] text-flame mb-3">Participant</p>
+          <p className="text-[10px] uppercase tracking-[0.5em] text-flame mb-3">Participante</p>
           <h1 className="display text-5xl md:text-8xl text-paper leading-[0.85] break-words">
             {participant.name}
           </h1>
           <div className="mt-8 md:mt-12 grid grid-cols-3 gap-4 md:gap-10">
-            <Stat label="Points" value={total} accent="flame" />
-            <Stat label="Exact" value={exact} accent="jade" />
-            <Stat label="Predictions" value={`${predictionsMade}/${matches.length}`} accent="paper" />
+            <Stat label="Puntos" value={total} accent="flame" />
+            <Stat label="Exactos" value={exact} accent="jade" />
+            <Stat label="Pronósticos" value={`${predictionsMade}/${matches.length}`} accent="paper" />
           </div>
         </div>
       </div>
 
       <h2 className="display text-2xl md:text-3xl text-paper mb-3 border-b border-edge pb-3">
-        All matches
+        Todos los partidos
       </h2>
       <ul>
         {matches.map((m) => {
@@ -74,7 +74,7 @@ export default async function ParticipantPage({ params }: { params: Promise<{ id
                   </div>
                 </div>
                 <div className="hidden md:block text-right">
-                  <div className="text-[9px] uppercase tracking-[0.3em] text-mute mb-1">Pick</div>
+                  <div className="text-[9px] uppercase tracking-[0.3em] text-mute mb-1">Pronóstico</div>
                   <div className="score-num text-sm text-paper">
                     {p ? (
                       <>{p.home_score}<span className="text-edge mx-1">–</span>{p.away_score}</>
@@ -84,7 +84,7 @@ export default async function ParticipantPage({ params }: { params: Promise<{ id
                   </div>
                 </div>
                 <div className="hidden md:block text-right">
-                  <div className="text-[9px] uppercase tracking-[0.3em] text-mute mb-1">Final</div>
+                  <div className="text-[9px] uppercase tracking-[0.3em] text-mute mb-1">Resultado</div>
                   <div className="score-num text-sm">
                     {finished ? (
                       <span className={ex ? "text-jade glow-jade" : "text-paper"}>

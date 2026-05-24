@@ -15,30 +15,30 @@ export default async function AdminDashboard() {
   return (
     <section>
       <header className="mb-10 flex items-end justify-between border-b border-edge pb-4">
-        <h1 className="display text-5xl md:text-7xl text-paper leading-none">Dashboard</h1>
+        <h1 className="display text-5xl md:text-7xl text-paper leading-none">Panel</h1>
         <span className="hidden md:block text-[10px] uppercase tracking-[0.4em] text-mute">
-          Control room
+          Centro de control
         </span>
       </header>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-14">
-        <Stat label="Participants" value={participants.length} accent="paper" />
-        <Stat label="Played" value={`${finished} / ${matches.length}`} accent="jade" />
-        <Stat label="Remaining" value={matches.length - finished} accent="flame" />
+        <Stat label="Participantes" value={participants.length} accent="paper" />
+        <Stat label="Jugados" value={`${finished} / ${matches.length}`} accent="jade" />
+        <Stat label="Restantes" value={matches.length - finished} accent="flame" />
       </div>
 
       <div className="flex items-baseline justify-between mb-4 border-b border-edge pb-3">
-        <h2 className="display text-2xl md:text-3xl text-paper">Next kickoffs</h2>
+        <h2 className="display text-2xl md:text-3xl text-paper">Próximos partidos</h2>
         <Link
           href="/admin/matches"
           className="text-[10px] uppercase tracking-[0.3em] text-mute hover:text-flame transition"
         >
-          All matches →
+          Ver todos →
         </Link>
       </div>
 
       {upcoming.length === 0 ? (
-        <p className="text-mute uppercase tracking-widest text-xs">No upcoming matches.</p>
+        <p className="text-mute uppercase tracking-widest text-xs">Sin partidos próximos.</p>
       ) : (
         <ul>
           {upcoming.map((m) => (
@@ -59,7 +59,7 @@ export default async function AdminDashboard() {
                   </div>
                 </div>
                 <span className="text-[10px] uppercase tracking-[0.3em] text-mute group-hover:text-flame transition">
-                  Enter →
+                  Abrir →
                 </span>
               </Link>
             </li>

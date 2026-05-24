@@ -25,13 +25,13 @@ export default async function AdminMatchEditorPage({
         href="/admin/matches"
         className="text-[10px] uppercase tracking-[0.4em] text-mute hover:text-flame transition"
       >
-        ← All matches
+        ← Todos los partidos
       </Link>
 
       <form action={saveMatchAction} className="mt-2">
         <input type="hidden" name="match_id" value={match.id} />
 
-        {/* Scoreboard with final-result inputs */}
+        {/* Marcador */}
         <div className="relative my-6 md:my-8 border border-edge bg-coal overflow-hidden pitch-bg">
           <div
             aria-hidden
@@ -43,7 +43,7 @@ export default async function AdminMatchEditorPage({
           </div>
           <div className="relative z-10 p-6 md:p-10">
             <div className="text-[10px] uppercase tracking-[0.4em] text-flame mb-6">
-              Final result · Group {match.group} · {formatKickoffFull(match.kickoff_at)}
+              Resultado final · Grupo {match.group} · {formatKickoffFull(match.kickoff_at)}
             </div>
             <div className="grid grid-cols-[1fr_auto_auto_auto_1fr] items-center gap-2 md:gap-6">
               <div className="display text-xl md:text-4xl text-paper text-right truncate">
@@ -57,28 +57,27 @@ export default async function AdminMatchEditorPage({
               </div>
             </div>
             <p className="mt-5 text-[10px] uppercase tracking-[0.3em] text-mute text-center">
-              Leave both blank to mark as not played
+              Deja ambos en blanco para marcar como no jugado
             </p>
           </div>
         </div>
 
-        {/* Predictions grid */}
+        {/* Pronósticos */}
         <div className="flex items-baseline justify-between mb-3 border-b border-edge pb-3">
-          <h2 className="display text-2xl md:text-3xl text-paper">Predictions</h2>
+          <h2 className="display text-2xl md:text-3xl text-paper">Pronósticos</h2>
           <span className="text-[10px] uppercase tracking-[0.3em] text-mute">
-            {participants.length} {participants.length === 1 ? "entry" : "entries"}
+            {participants.length} {participants.length === 1 ? "entrada" : "entradas"}
           </span>
         </div>
 
         {participants.length === 0 ? (
           <div className="border border-edge bg-coal px-6 py-12 text-center">
-            <p className="display text-2xl text-mute">No participants</p>
+            <p className="display text-2xl text-mute">Sin participantes</p>
             <p className="text-[10px] uppercase tracking-[0.4em] text-mute mt-2">
-              Add them on the{" "}
+              Agrégalos primero en la página de{" "}
               <Link href="/admin/participants" className="text-flame hover:underline">
-                Participants
-              </Link>{" "}
-              page first
+                Participantes
+              </Link>
             </p>
           </div>
         ) : (
@@ -109,7 +108,7 @@ export default async function AdminMatchEditorPage({
             type="submit"
             className="display block w-full md:w-auto md:px-16 py-4 bg-flame text-ink hover:bg-paper transition tracking-[0.2em] text-lg shadow-[0_12px_40px_-4px_rgba(255,106,31,0.55)]"
           >
-            Save match
+            Guardar partido
           </button>
         </div>
       </form>

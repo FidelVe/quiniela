@@ -15,8 +15,8 @@ export default async function ParticipantsPage() {
     <section>
       <header className="flex items-end justify-between mb-10 border-b border-edge pb-4">
         <div>
-          <p className="text-[10px] uppercase tracking-[0.5em] text-flame mb-2">The Pool</p>
-          <h1 className="display text-5xl md:text-7xl text-paper leading-none">Participants</h1>
+          <p className="text-[10px] uppercase tracking-[0.5em] text-flame mb-2">La Quiniela</p>
+          <h1 className="display text-5xl md:text-7xl text-paper leading-none">Participantes</h1>
         </div>
         <div className="text-right">
           <div className="score-num text-3xl md:text-5xl text-flame leading-none">
@@ -28,11 +28,11 @@ export default async function ParticipantsPage() {
 
       <div className="grid lg:grid-cols-2 gap-3 mb-12">
         <form action={addParticipantAction} className="border border-edge bg-coal p-5">
-          <div className="text-[10px] uppercase tracking-[0.4em] text-flame mb-3">Add one</div>
+          <div className="text-[10px] uppercase tracking-[0.4em] text-flame mb-3">Agregar uno</div>
           <div className="flex gap-2">
             <input
               name="name"
-              placeholder="Name"
+              placeholder="Nombre"
               required
               className="flex-1 bg-ink border border-edge focus:border-flame text-paper px-3 py-2 outline-none transition"
             />
@@ -40,33 +40,33 @@ export default async function ParticipantsPage() {
               type="submit"
               className="display tracking-[0.15em] bg-flame text-ink px-5 py-2 hover:bg-paper transition"
             >
-              Add
+              Agregar
             </button>
           </div>
         </form>
 
         <form action={bulkAddParticipantsAction} className="border border-edge bg-coal p-5">
-          <div className="text-[10px] uppercase tracking-[0.4em] text-flame mb-3">Bulk add</div>
+          <div className="text-[10px] uppercase tracking-[0.4em] text-flame mb-3">Agregar varios</div>
           <textarea
             name="names"
             rows={3}
-            placeholder="One name per line, or comma-separated"
+            placeholder="Un nombre por línea, o separados por coma"
             className="w-full bg-ink border border-edge focus:border-flame text-paper px-3 py-2 outline-none transition text-sm resize-none"
           />
           <button
             type="submit"
             className="mt-2 display tracking-[0.15em] bg-paper text-ink px-4 py-2 hover:bg-flame transition text-sm"
           >
-            Bulk add
+            Agregar lote
           </button>
         </form>
       </div>
 
       {participants.length === 0 ? (
         <div className="border border-edge bg-coal px-6 py-12 text-center">
-          <p className="display text-2xl text-mute">Empty roster</p>
+          <p className="display text-2xl text-mute">Lista vacía</p>
           <p className="text-[10px] uppercase tracking-[0.4em] text-mute mt-2">
-            Add the first names above
+            Agrega los primeros nombres arriba
           </p>
         </div>
       ) : (
@@ -90,7 +90,7 @@ export default async function ParticipantsPage() {
                   type="submit"
                   className="text-[10px] uppercase tracking-[0.3em] text-mute hover:text-flame transition"
                 >
-                  Save
+                  Guardar
                 </button>
               </form>
               <form action={deleteParticipantAction}>
@@ -99,7 +99,7 @@ export default async function ParticipantsPage() {
                   type="submit"
                   className="text-[10px] uppercase tracking-[0.3em] text-mute hover:text-clay transition"
                 >
-                  Remove
+                  Eliminar
                 </button>
               </form>
             </li>

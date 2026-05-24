@@ -38,10 +38,10 @@ export default async function MatchPage({ params }: { params: Promise<{ id: stri
         href="/fixtures"
         className="text-[10px] uppercase tracking-[0.4em] text-mute hover:text-flame transition"
       >
-        ← Fixtures
+        ← Calendario
       </Link>
 
-      {/* Scoreboard */}
+      {/* Marcador */}
       <div className="relative my-6 md:my-10 border border-edge bg-coal overflow-hidden pitch-bg">
         <div aria-hidden className="absolute inset-0 flex items-center justify-center pointer-events-none select-none">
           <span className="display text-[16rem] md:text-[28rem] leading-none text-edge opacity-60">
@@ -51,10 +51,10 @@ export default async function MatchPage({ params }: { params: Promise<{ id: stri
 
         <div className="relative z-10 p-6 md:p-12">
           <div className="flex items-center justify-between text-[10px] uppercase tracking-[0.4em] text-mute mb-6 md:mb-10">
-            <span>Group {match.group}</span>
+            <span>Grupo {match.group}</span>
             <span className="hidden sm:inline">{formatKickoffFull(match.kickoff_at)}</span>
             <span className={finished ? "text-jade" : "text-flame"}>
-              {finished ? "● Full Time" : "○ Scheduled"}
+              {finished ? "● Tiempo Final" : "○ Programado"}
             </span>
           </div>
           <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-4 md:gap-10">
@@ -87,9 +87,9 @@ export default async function MatchPage({ params }: { params: Promise<{ id: stri
       </div>
 
       <div className="mb-3 flex items-baseline justify-between border-b border-edge pb-3">
-        <h2 className="display text-3xl md:text-4xl text-paper">Predictions</h2>
+        <h2 className="display text-3xl md:text-4xl text-paper">Pronósticos</h2>
         <span className="text-[10px] uppercase tracking-[0.3em] text-mute">
-          {preds.size} / {participants.length} entered
+          {preds.size} / {participants.length} registrados
         </span>
       </div>
 

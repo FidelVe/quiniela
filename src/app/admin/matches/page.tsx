@@ -17,12 +17,12 @@ export default async function AdminMatchesPage() {
     <section>
       <header className="flex items-end justify-between mb-10 border-b border-edge pb-4">
         <div>
-          <p className="text-[10px] uppercase tracking-[0.5em] text-flame mb-2">All Fixtures</p>
-          <h1 className="display text-5xl md:text-7xl text-paper leading-none">Matches</h1>
+          <p className="text-[10px] uppercase tracking-[0.5em] text-flame mb-2">Todo el calendario</p>
+          <h1 className="display text-5xl md:text-7xl text-paper leading-none">Partidos</h1>
         </div>
         <div className="text-right text-[10px] uppercase tracking-[0.3em] text-mute">
-          <p>{matches.length} total</p>
-          <p className="mt-1 text-jade">{finished} played</p>
+          <p>{matches.length} en total</p>
+          <p className="mt-1 text-jade">{finished} jugados</p>
         </div>
       </header>
 
@@ -65,7 +65,7 @@ export default async function AdminMatchesPage() {
                     </span>
                   ) : (
                     <span className="text-mute text-[10px] uppercase tracking-[0.3em]">
-                      Scheduled
+                      Programado
                     </span>
                   )}
                 </div>

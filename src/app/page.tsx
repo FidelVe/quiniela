@@ -11,12 +11,12 @@ export default async function LeaderboardPage() {
     <section>
       <header className="mb-10 md:mb-14 flex items-end justify-between gap-6 border-b border-edge pb-5">
         <div>
-          <p className="text-[10px] uppercase tracking-[0.5em] text-flame mb-2">The Table</p>
-          <h1 className="display text-7xl md:text-[9rem] text-paper">Standings</h1>
+          <p className="text-[10px] uppercase tracking-[0.5em] text-flame mb-2">La Tabla</p>
+          <h1 className="display text-7xl md:text-[9rem] text-paper">Posiciones</h1>
         </div>
         <div className="hidden md:block text-right text-xs uppercase tracking-[0.3em] text-mute">
-          <p>Group stage</p>
-          <p className="mt-1">2026 · North America</p>
+          <p>Fase de grupos</p>
+          <p className="mt-1">2026 · Norteamérica</p>
         </div>
       </header>
 
@@ -50,7 +50,7 @@ export default async function LeaderboardPage() {
                       {r.name}
                     </div>
                     <div className="mt-1 flex items-center gap-3 text-[10px] uppercase tracking-[0.25em] text-mute">
-                      <span>{r.exact_count} exact</span>
+                      <span>{r.exact_count} exactos</span>
                       {r.exact_count > 0 && (
                         <span className="text-jade glow-jade">✦</span>
                       )}
@@ -76,7 +76,7 @@ export default async function LeaderboardPage() {
       )}
 
       <p className="mt-8 text-[10px] uppercase tracking-[0.4em] text-mute">
-        Tiebreaker — Exact scores · then alphabetical
+        Desempate — Marcadores exactos · luego alfabético
       </p>
     </section>
   );
@@ -85,9 +85,9 @@ export default async function LeaderboardPage() {
 function EmptyState() {
   return (
     <div className="border border-edge bg-coal px-6 py-16 text-center">
-      <p className="display text-3xl text-mute">No participants yet</p>
+      <p className="display text-3xl text-mute">Aún sin participantes</p>
       <p className="text-[10px] uppercase tracking-[0.4em] text-mute mt-2">
-        Add some via the manager console
+        Agrégalos desde la consola de administración
       </p>
     </div>
   );

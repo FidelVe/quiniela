@@ -10,10 +10,10 @@ export default async function LoginPage({
   return (
     <section className="max-w-md mx-auto mt-8 md:mt-16">
       <div className="text-center mb-10">
-        <p className="text-[10px] uppercase tracking-[0.5em] text-flame mb-3">Staff Entry</p>
-        <h1 className="display text-6xl md:text-7xl text-paper">Manager</h1>
+        <p className="text-[10px] uppercase tracking-[0.5em] text-flame mb-3">Acceso del organizador</p>
+        <h1 className="display text-6xl md:text-7xl text-paper">Administración</h1>
         <p className="text-[10px] uppercase tracking-[0.4em] text-mute mt-3">
-          Quiniela 26 · Authorized only
+          Quiniela 26 · Solo personal autorizado
         </p>
       </div>
 
@@ -24,7 +24,7 @@ export default async function LoginPage({
         <input type="hidden" name="next" value={next ?? "/admin"} />
         <div>
           <label className="block text-[10px] uppercase tracking-[0.4em] text-mute mb-2">
-            User
+            Usuario
           </label>
           <input
             name="user"
@@ -35,7 +35,7 @@ export default async function LoginPage({
         </div>
         <div>
           <label className="block text-[10px] uppercase tracking-[0.4em] text-mute mb-2">
-            Password
+            Contraseña
           </label>
           <input
             name="pass"
@@ -47,14 +47,14 @@ export default async function LoginPage({
         </div>
         {error && (
           <div className="text-[10px] uppercase tracking-[0.4em] text-clay border-l-2 border-clay pl-3 py-1">
-            Access denied
+            Acceso denegado
           </div>
         )}
         <button
           type="submit"
           className="display block w-full text-lg bg-flame text-ink py-3 hover:bg-paper transition tracking-[0.2em]"
         >
-          Enter
+          Entrar
         </button>
       </form>
     </section>

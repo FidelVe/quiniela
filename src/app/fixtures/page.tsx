@@ -4,6 +4,10 @@ import { formatKickoff } from "@/lib/format";
 
 export const dynamic = "force-dynamic";
 
+function stripPeriod(s: string): string {
+  return s.replace(/\.$/, "");
+}
+
 export default async function FixturesPage() {
   const matches = await listMatches();
 
@@ -18,21 +22,25 @@ export default async function FixturesPage() {
     <section>
       <header className="mb-10 md:mb-14 flex items-end justify-between gap-6 border-b border-edge pb-5">
         <div>
-          <p className="text-[10px] uppercase tracking-[0.5em] text-flame mb-2">All Matches</p>
-          <h1 className="display text-7xl md:text-[9rem] text-paper">Fixtures</h1>
+          <p className="text-[10px] uppercase tracking-[0.5em] text-flame mb-2">Todos los partidos</p>
+          <h1 className="display text-7xl md:text-[9rem] text-paper">Calendario</h1>
         </div>
         <div className="hidden md:block text-right text-xs uppercase tracking-[0.3em] text-mute">
-          <p>72 matches</p>
-          <p className="mt-1">Group stage only</p>
+          <p>72 partidos</p>
+          <p className="mt-1">Solo fase de grupos</p>
         </div>
       </header>
 
       <div className="space-y-12">
         {[...byDate.entries()].map(([day, dayMatches]) => {
           const date = new Date(day);
-          const dow = date.toLocaleDateString("en-US", { weekday: "short" }).toUpperCase();
+          const dow = stripPeriod(
+            date.toLocaleDateString("es", { weekday: "short" })
+          ).toUpperCase();
           const dnum = date.getDate();
-          const mo = date.toLocaleDateString("en-US", { month: "short" }).toUpperCase();
+          const mo = stripPeriod(
+            date.toLocaleDateString("es", { month: "short" })
+          ).toUpperCase();
           return (
             <div key={day}>
               <div className="flex items-baseline gap-4 mb-3">
@@ -44,7 +52,7 @@ export default async function FixturesPage() {
                   <span className="text-[10px] tracking-[0.4em] text-mute uppercase">{mo}</span>
                 </div>
                 <span className="ml-auto text-[10px] tracking-[0.4em] text-mute uppercase">
-                  {dayMatches.length} {dayMatches.length === 1 ? "match" : "matches"}
+                  {dayMatches.length} {dayMatches.length === 1 ? "partido" : "partidos"}
                 </span>
               </div>
               <ul className="border-t border-edge">
@@ -84,7 +92,7 @@ export default async function FixturesPage() {
                             finished ? "text-jade" : "text-mute"
                           }`}
                         >
-                          {finished ? "FT" : "—"}
+                          {finished ? "FIN" : "—"}
                         </span>
                       </Link>
                     </li>
