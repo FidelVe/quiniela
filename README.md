@@ -1,13 +1,50 @@
- # Quiniela
+# Quiniela 26
 
-quiniela app for the 2026 fifa world cup.
+Quiniela del Mundial 2026 entre amigos. Una sola cuenta de organizador
+registra los pronósticos de cada participante y los resultados de cada
+partido; los puntos se calculan solos.
 
-* 50 participants aprox 
-* rules are as follow: is only going to run for the first round for all the 72 matches in that round (i think thats the amount), every win is 1 point, a tie is 1 point, if you guess the exact score is 4 points
-* use a mongo db in docker
-* is a frontend with nextjs the backend can be nextjs too if its features are sufficient
-* ill deploy in a server and handle ports, domain, DNS on cloudflare etc
-* im evaluating that the simple way to set it up is to have just one account for the manager and the manager creates the 50 participants and will before every match collect the participants predictions in a chat group and then the manager will manually add those predictions for each participants, and the result of the match, the app will do the calculation 
-* now that I think about it, this can be a frontend only app no need to have a backend and we can hardcode the manager username and password, I have no worry of someone reading the frontend code in the browser and being able to fetch user and password.
+## Puntos
 
-your goal is to first give me a plan and proposals for this app before we start implementing so I can review once i agree we start the coding
+- Acertar ganador (no empate) → **1**
+- Acertar empate → **2**
+- Marcador exacto → **+4** sobre los puntos del resultado
+
+## Stack
+
+Next.js 15 (App Router) · TypeScript · Tailwind 4 · Postgres 17 · Docker
+Compose. La autenticación del organizador es un único usuario en
+`.env.local`.
+
+## Primer arranque
+
+```bash
+cp .env.local.example .env.local
+# Editar .env.local: cambiar MANAGER_PASSWORD, SESSION_SECRET y
+# POSTGRES_PASSWORD (DATABASE_URL usa la misma contraseña).
+
+docker compose up -d --build
+```
+
+La app queda en `http://localhost:3000`. Los 72 partidos de la fase de
+grupos se siembran automáticamente desde `data/fixtures.json` la primera
+vez que la base de datos arranca.
+
+## Comandos útiles
+
+| Comando | Qué hace |
+| --- | --- |
+| `pnpm reset-db` | Borra participantes, predicciones y resultados; reinicia la app para re-sembrar los partidos. `-- -y` para saltar la confirmación. |
+| `pnpm gen-fixtures` | Regenera `data/fixtures.json` desde el calendario en `scripts/gen-fixtures.mjs`. Útil si FIFA cambia un horario. |
+| `docker compose logs -f app` | Logs en vivo de la app. |
+| `docker compose exec db psql -U $POSTGRES_USER -d $POSTGRES_DB` | Acceso a `psql` para inspección manual. |
+
+## Despliegue
+
+Mismo flujo: `docker compose up -d --build` en el servidor, detrás de tu
+proxy / Cloudflare. La base de datos vive en el volumen
+`quiniela_pgdata`. Backup:
+
+```bash
+docker compose exec db pg_dump -U $POSTGRES_USER $POSTGRES_DB > backup.sql
+```
