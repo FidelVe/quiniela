@@ -3,6 +3,10 @@ import { notFound } from "next/navigation";
 import { getMatch, listParticipants, predictionsForMatch } from "@/lib/queries";
 import { formatKickoffFull } from "@/lib/format";
 import { saveMatchAction } from "./actions";
+import { SaveForm } from "@/components/save-form";
+import { SaveButton } from "@/components/save-button";
+import { ClearResultButton } from "@/components/clear-result-button";
+import { ClearRowButton } from "@/components/clear-row-button";
 
 export const dynamic = "force-dynamic";
 
@@ -18,6 +22,8 @@ export default async function AdminMatchEditorPage({
 
   const participants = await listParticipants();
   const preds = await predictionsForMatch(matchId);
+  const hasResult = match.home_score !== null && match.away_score !== null;
+  const resultVersion = `${match.home_score ?? "x"}-${match.away_score ?? "x"}`;
 
   return (
     <section>
@@ -28,10 +34,10 @@ export default async function AdminMatchEditorPage({
         ← Todos los partidos
       </Link>
 
-      <form action={saveMatchAction} className="mt-2">
+      <SaveForm action={saveMatchAction} className="mt-2">
         <input type="hidden" name="match_id" value={match.id} />
 
-        {/* Marcador */}
+        {/* Marcador con inputs de resultado final */}
         <div className="relative my-6 md:my-8 border border-edge bg-coal overflow-hidden pitch-bg">
           <div
             aria-hidden
@@ -42,16 +48,31 @@ export default async function AdminMatchEditorPage({
             </span>
           </div>
           <div className="relative z-10 p-6 md:p-10">
-            <div className="text-[10px] uppercase tracking-[0.4em] text-flame mb-6">
-              Resultado final · Grupo {match.group} · {formatKickoffFull(match.kickoff_at)}
+            <div className="flex items-center justify-between flex-wrap gap-3 mb-6">
+              <div className="text-[10px] uppercase tracking-[0.4em] text-flame">
+                Resultado final · Grupo {match.group} · {formatKickoffFull(match.kickoff_at)}
+              </div>
+              <ClearResultButton
+                matchId={match.id}
+                hasResult={hasResult}
+                inputNames={["result_home", "result_away"]}
+              />
             </div>
             <div className="grid grid-cols-[1fr_auto_auto_auto_1fr] items-center gap-2 md:gap-6">
               <div className="display text-xl md:text-4xl text-paper text-right truncate">
                 {match.home_team}
               </div>
-              <ScoreInput name="result_home" defaultValue={match.home_score} />
+              <ScoreInput
+                key={`rh-${resultVersion}`}
+                name="result_home"
+                defaultValue={match.home_score}
+              />
               <span className="display text-2xl md:text-4xl text-edge">–</span>
-              <ScoreInput name="result_away" defaultValue={match.away_score} />
+              <ScoreInput
+                key={`ra-${resultVersion}`}
+                name="result_away"
+                defaultValue={match.away_score}
+              />
               <div className="display text-xl md:text-4xl text-paper text-left truncate">
                 {match.away_team}
               </div>
@@ -84,18 +105,33 @@ export default async function AdminMatchEditorPage({
           <ul>
             {participants.map((p, i) => {
               const pred = preds.get(p.id);
+              const predVersion = `${pred?.home_score ?? "x"}-${pred?.away_score ?? "x"}`;
               return (
                 <li
                   key={p.id}
-                  className="grid grid-cols-[2rem_1fr_auto_auto_auto] items-center gap-2 md:gap-4 px-2 py-2 border-b border-edge hover:bg-coal/60 transition"
+                  data-row
+                  className="grid grid-cols-[2rem_1fr_auto_auto_auto_auto] items-center gap-2 md:gap-4 px-2 py-2 border-b border-edge hover:bg-coal/60 transition"
                 >
                   <span className="score-num text-[10px] text-mute text-right">
                     {(i + 1).toString().padStart(2, "0")}
                   </span>
                   <span className="text-paper truncate text-sm md:text-base">{p.name}</span>
-                  <PredInput name={`pred_${p.id}_home`} defaultValue={pred?.home_score} />
+                  <PredInput
+                    key={`h-${p.id}-${predVersion}`}
+                    name={`pred_${p.id}_home`}
+                    defaultValue={pred?.home_score}
+                  />
                   <span className="text-edge text-lg">–</span>
-                  <PredInput name={`pred_${p.id}_away`} defaultValue={pred?.away_score} />
+                  <PredInput
+                    key={`a-${p.id}-${predVersion}`}
+                    name={`pred_${p.id}_away`}
+                    defaultValue={pred?.away_score}
+                  />
+                  <ClearRowButton
+                    matchId={match.id}
+                    participantId={p.id}
+                    hasPrediction={Boolean(pred)}
+                  />
                 </li>
               );
             })}
@@ -104,19 +140,23 @@ export default async function AdminMatchEditorPage({
 
         {/* Sticky save bar */}
         <div className="sticky bottom-4 mt-8 z-20 flex justify-center">
-          <button
-            type="submit"
-            className="display block w-full md:w-auto md:px-16 py-4 bg-flame text-ink hover:bg-paper transition tracking-[0.2em] text-lg shadow-[0_12px_40px_-4px_rgba(255,106,31,0.55)]"
-          >
-            Guardar partido
-          </button>
+          <SaveButton
+            label="Guardar partido"
+            className="display block w-full md:w-auto md:px-16 py-4 tracking-[0.2em] text-lg shadow-[0_12px_40px_-4px_rgba(255,106,31,0.55)]"
+          />
         </div>
-      </form>
+      </SaveForm>
     </section>
   );
 }
 
-function ScoreInput({ name, defaultValue }: { name: string; defaultValue: number | null }) {
+function ScoreInput({
+  name,
+  defaultValue,
+}: {
+  name: string;
+  defaultValue: number | null;
+}) {
   return (
     <input
       name={name}
