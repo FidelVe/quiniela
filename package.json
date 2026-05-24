@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "gen-fixtures": "node scripts/gen-fixtures.mjs"
+    "gen-fixtures": "node scripts/gen-fixtures.mjs",
+    "reset-db": "bash scripts/reset-db.sh"
   },
   "packageManager": "pnpm@10.30.3",
   "dependencies": {
