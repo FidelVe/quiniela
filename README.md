@@ -8,7 +8,12 @@ partido; los puntos se calculan solos.
 
 - Acertar ganador (no empate) → **1**
 - Acertar empate → **2**
-- Marcador exacto → **+4** sobre los puntos del resultado
+- Marcador exacto → **+3** sobre los puntos del resultado
+
+Desempate: más marcadores exactos; si persiste, gana quien tenga la suma
+de goles pronosticados más cercana al total oficial de goles de la fase
+de grupos (lo decide el organizador). Los horarios se muestran en hora
+de Venezuela (GMT-4).
 
 ## Stack
 

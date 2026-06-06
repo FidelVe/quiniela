@@ -25,7 +25,7 @@ const mono = DM_Mono({
 
 export const metadata: Metadata = {
   title: "Quiniela 26",
-  description: "Quiniela del Mundial 2026 entre amigos",
+  description: "La Quiniela de Chande - Mundial 2026",
 };
 
 const TICKER = "★ JORNADA · 2026 · NORTEAMÉRICA · USA · CAN · MEX ·";
@@ -67,6 +67,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <nav className="ml-auto flex gap-5 md:gap-7 text-[11px] md:text-xs uppercase tracking-[0.3em]">
               <Link href="/" className="hover:text-flame transition">Posiciones</Link>
               <Link href="/fixtures" className="hover:text-flame transition">Calendario</Link>
+              <Link href="/info" className="hover:text-flame transition">Info</Link>
               <Link href="/admin" className="text-mute hover:text-paper transition">Admin</Link>
             </nav>
           </div>
@@ -77,7 +78,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <footer className="mt-24 border-t border-edge">
           <div className="mx-auto max-w-6xl px-5 md:px-8 py-6 flex items-center justify-between text-[10px] uppercase tracking-[0.4em] text-mute">
             <span>Quiniela 26</span>
-            <span>Una quiniela entre amigos</span>
+            <span>La quiniela de Chande</span>
           </div>
         </footer>
       </body>

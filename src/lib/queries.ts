@@ -86,13 +86,17 @@ interface LeaderboardRowRaw {
   name: string;
   points: number | string;
   exact_count: number | string;
+  total_goals: number | string;
 }
 
 export async function leaderboard(): Promise<LeaderboardRow[]> {
   // Scoring (additive):
   //   - Correct win/loss outcome    → +1
   //   - Correct tie outcome         → +2
-  //   - Exact score (bonus)         → +4 on top of the outcome points
+  //   - Exact score (bonus)         → +3 on top of the outcome points
+  // Ties in points/exactos are resolved manually by the manager: the
+  // participant whose total predicted goals is closest to the official
+  // total goals of the group stage wins (total_goals is shown for that).
   const { rows } = await query<LeaderboardRowRaw>(`
     SELECT
       p.id AS participant_id,
@@ -111,7 +115,7 @@ export async function leaderboard(): Promise<LeaderboardRow[]> {
         CASE
           WHEN m.status = 'finished'
                AND m.home_score = pr.home_score
-               AND m.away_score = pr.away_score THEN 4
+               AND m.away_score = pr.away_score THEN 3
           ELSE 0
         END
       ), 0)::int AS points,
@@ -120,19 +124,30 @@ export async function leaderboard(): Promise<LeaderboardRow[]> {
          AND m.home_score = pr.home_score
          AND m.away_score = pr.away_score THEN 1
         ELSE 0
-      END), 0)::int AS exact_count
+      END), 0)::int AS exact_count,
+      COALESCE(SUM(pr.home_score + pr.away_score), 0)::int AS total_goals
     FROM participants p
     LEFT JOIN predictions pr ON pr.participant_id = p.id
     LEFT JOIN matches m ON m.id = pr.match_id
     GROUP BY p.id, p.name
-    ORDER BY points DESC, exact_count DESC, p.name ASC
+    ORDER BY points DESC, exact_count DESC, p.id ASC
   `);
   return rows.map((r) => ({
     participant_id: r.participant_id,
     name: r.name,
     points: Number(r.points),
     exact_count: Number(r.exact_count),
+    total_goals: Number(r.total_goals),
   }));
+}
+
+// Official total goals scored across all finished group-stage matches.
+export async function officialTotalGoals(): Promise<number> {
+  const { rows } = await query<{ total: number | string }>(
+    `SELECT COALESCE(SUM(home_score + away_score), 0)::int AS total
+     FROM matches WHERE status = 'finished'`
+  );
+  return Number(rows[0]?.total ?? 0);
 }
 
 export async function predictionCountsByMatch(): Promise<Map<number, number>> {

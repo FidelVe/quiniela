@@ -1,10 +1,13 @@
 import Link from "next/link";
-import { leaderboard } from "@/lib/queries";
+import { leaderboard, officialTotalGoals } from "@/lib/queries";
 
 export const dynamic = "force-dynamic";
 
 export default async function LeaderboardPage() {
-  const rows = await leaderboard();
+  const [rows, officialGoals] = await Promise.all([
+    leaderboard(),
+    officialTotalGoals(),
+  ]);
   const maxPoints = rows[0]?.points ?? 0;
 
   return (
@@ -51,6 +54,7 @@ export default async function LeaderboardPage() {
                     </div>
                     <div className="mt-1 flex items-center gap-3 text-[10px] uppercase tracking-[0.25em] text-mute">
                       <span>{r.exact_count} exactos</span>
+                      <span>{r.total_goals} goles</span>
                       {r.exact_count > 0 && (
                         <span className="text-jade glow-jade">✦</span>
                       )}
@@ -75,9 +79,12 @@ export default async function LeaderboardPage() {
         </ol>
       )}
 
-      <p className="mt-8 text-[10px] uppercase tracking-[0.4em] text-mute">
-        Desempate — Marcadores exactos · luego alfabético
-      </p>
+      <div className="mt-8 flex flex-wrap items-center justify-between gap-3 text-[10px] uppercase tracking-[0.4em] text-mute">
+        <p>Desempate — Marcadores exactos · luego goles totales más cercanos al real</p>
+        <p>
+          Goles oficiales — <span className="text-paper">{officialGoals}</span>
+        </p>
+      </div>
     </section>
   );
 }

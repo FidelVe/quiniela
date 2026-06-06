@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { listMatches } from "@/lib/queries";
-import { formatKickoff } from "@/lib/format";
+import { formatKickoff, kickoffDayKey, TIME_ZONE } from "@/lib/format";
 
 export const dynamic = "force-dynamic";
 
@@ -13,7 +13,7 @@ export default async function FixturesPage() {
 
   const byDate = new Map<string, typeof matches>();
   for (const m of matches) {
-    const day = new Date(m.kickoff_at).toISOString().slice(0, 10);
+    const day = kickoffDayKey(m.kickoff_at);
     if (!byDate.has(day)) byDate.set(day, []);
     byDate.get(day)!.push(m);
   }
@@ -33,13 +33,13 @@ export default async function FixturesPage() {
 
       <div className="space-y-12">
         {[...byDate.entries()].map(([day, dayMatches]) => {
-          const date = new Date(day);
+          const date = new Date(dayMatches[0].kickoff_at);
           const dow = stripPeriod(
-            date.toLocaleDateString("es", { weekday: "short" })
+            date.toLocaleDateString("es", { weekday: "short", timeZone: TIME_ZONE })
           ).toUpperCase();
-          const dnum = date.getDate();
+          const dnum = Number(day.slice(8, 10));
           const mo = stripPeriod(
-            date.toLocaleDateString("es", { month: "short" })
+            date.toLocaleDateString("es", { month: "short", timeZone: TIME_ZONE })
           ).toUpperCase();
           return (
             <div key={day}>

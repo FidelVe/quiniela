@@ -29,4 +29,7 @@ export interface LeaderboardRow {
   name: string;
   points: number;
   exact_count: number;
+  // Sum of all the participant's predicted goals — the manual tiebreaker:
+  // closest to the official total goals of the group stage wins.
+  total_goals: number;
 }

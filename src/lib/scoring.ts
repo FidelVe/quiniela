@@ -4,7 +4,7 @@ import type { Match, Prediction } from "./types";
 export const POINTS_WIN = 1;
 export const POINTS_TIE = 2;
 // Bonus added on top of the outcome points when the exact score matches.
-export const POINTS_EXACT_BONUS = 4;
+export const POINTS_EXACT_BONUS = 3;
 
 function outcome(home: number, away: number): "H" | "A" | "D" {
   if (home > away) return "H";
