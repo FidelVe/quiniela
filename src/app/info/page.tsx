@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ShareActions } from "@/components/share-actions";
 import {
   POINTS_WIN,
   POINTS_TIE,
@@ -17,9 +18,12 @@ export default function InfoPage() {
           <p className="text-[10px] uppercase tracking-[0.5em] text-flame mb-2">Las reglas</p>
           <h1 className="display text-7xl md:text-[9rem] text-paper">Info</h1>
         </div>
-        <div className="hidden md:block text-right text-xs uppercase tracking-[0.3em] text-mute">
-          <p>Fase de grupos</p>
-          <p className="mt-1">72 partidos</p>
+        <div className="flex flex-col items-end gap-3">
+          <div className="hidden md:block text-right text-xs uppercase tracking-[0.3em] text-mute">
+            <p>Fase de grupos</p>
+            <p className="mt-1">72 partidos</p>
+          </div>
+          <ShareActions title="Reglas — Quiniela 26" />
         </div>
       </header>
 

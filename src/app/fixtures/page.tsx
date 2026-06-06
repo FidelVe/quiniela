@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { listMatches } from "@/lib/queries";
 import { formatKickoff, kickoffDayKey, TIME_ZONE } from "@/lib/format";
+import { ShareActions } from "@/components/share-actions";
 
 export const dynamic = "force-dynamic";
 
@@ -25,9 +26,12 @@ export default async function FixturesPage() {
           <p className="text-[10px] uppercase tracking-[0.5em] text-flame mb-2">Todos los partidos</p>
           <h1 className="display text-7xl md:text-[9rem] text-paper">Calendario</h1>
         </div>
-        <div className="hidden md:block text-right text-xs uppercase tracking-[0.3em] text-mute">
-          <p>72 partidos</p>
-          <p className="mt-1">Solo fase de grupos</p>
+        <div className="flex flex-col items-end gap-3">
+          <div className="hidden md:block text-right text-xs uppercase tracking-[0.3em] text-mute">
+            <p>72 partidos</p>
+            <p className="mt-1">Solo fase de grupos</p>
+          </div>
+          <ShareActions title="Calendario — Quiniela 26" />
         </div>
       </header>
 

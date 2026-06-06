@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { leaderboard, officialTotalGoals } from "@/lib/queries";
+import { ShareActions } from "@/components/share-actions";
 
 export const dynamic = "force-dynamic";
 
@@ -17,9 +18,12 @@ export default async function LeaderboardPage() {
           <p className="text-[10px] uppercase tracking-[0.5em] text-flame mb-2">La Tabla</p>
           <h1 className="display text-7xl md:text-[9rem] text-paper">Posiciones</h1>
         </div>
-        <div className="hidden md:block text-right text-xs uppercase tracking-[0.3em] text-mute">
-          <p>Fase de grupos</p>
-          <p className="mt-1">2026 · Norteamérica</p>
+        <div className="flex flex-col items-end gap-3">
+          <div className="hidden md:block text-right text-xs uppercase tracking-[0.3em] text-mute">
+            <p>Fase de grupos</p>
+            <p className="mt-1">2026 · Norteamérica</p>
+          </div>
+          <ShareActions title="Posiciones — Quiniela 26" />
         </div>
       </header>
 
