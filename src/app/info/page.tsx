@@ -77,6 +77,13 @@ export default function InfoPage() {
             (GMT-4).
           </p>
         </Block>
+
+        <Block title="¿Quieres jugar?">
+          <p>
+            Si quieres participar, comunícate con{" "}
+            <span className="text-flame">Chande</span>.
+          </p>
+        </Block>
       </div>
     </section>
   );
