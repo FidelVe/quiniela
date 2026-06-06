@@ -18,9 +18,13 @@ export default async function ParticipantPage({ params }: { params: Promise<{ id
   let total = 0;
   let exact = 0;
   let predictionsMade = 0;
+  let totalGoals = 0;
   for (const m of matches) {
     const p = preds.get(m.id);
-    if (p) predictionsMade++;
+    if (p) {
+      predictionsMade++;
+      totalGoals += p.home_score + p.away_score;
+    }
     total += pointsFor(p, m);
     if (isExact(p, m)) exact++;
   }
@@ -41,9 +45,10 @@ export default async function ParticipantPage({ params }: { params: Promise<{ id
           <h1 className="display text-5xl md:text-8xl text-paper leading-[0.85] break-words">
             {participant.name}
           </h1>
-          <div className="mt-8 md:mt-12 grid grid-cols-3 gap-4 md:gap-10">
+          <div className="mt-8 md:mt-12 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-10">
             <Stat label="Puntos" value={total} accent="flame" />
             <Stat label="Exactos" value={exact} accent="jade" />
+            <Stat label="Goles" value={totalGoals} accent="paper" />
             <Stat label="Pronósticos" value={`${predictionsMade}/${matches.length}`} accent="paper" />
           </div>
         </div>
