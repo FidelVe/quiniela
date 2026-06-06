@@ -64,7 +64,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               </span>
               <span className="display text-4xl md:text-5xl text-flame glow-flame">26</span>
             </Link>
-            <nav className="ml-auto flex gap-5 md:gap-7 text-[11px] md:text-xs uppercase tracking-[0.3em]">
+            <nav className="ml-auto flex flex-wrap justify-end gap-x-5 gap-y-2 md:gap-x-7 text-[11px] md:text-xs uppercase tracking-[0.3em]">
               <Link href="/" className="hover:text-flame transition">Posiciones</Link>
               <Link href="/fixtures" className="hover:text-flame transition">Calendario</Link>
               <Link href="/info" className="hover:text-flame transition">Info</Link>
@@ -76,7 +76,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <main className="mx-auto max-w-6xl px-5 md:px-8 py-10 md:py-14">{children}</main>
 
         <footer className="mt-24 border-t border-edge">
-          <div className="mx-auto max-w-6xl px-5 md:px-8 py-6 flex items-center justify-between text-[10px] uppercase tracking-[0.4em] text-mute">
+          <div className="mx-auto max-w-6xl px-5 md:px-8 py-6 flex flex-wrap items-center justify-between gap-x-6 gap-y-2 text-[10px] uppercase tracking-[0.4em] text-mute">
             <span>Quiniela 26</span>
             <span>La quiniela de Chande</span>
           </div>

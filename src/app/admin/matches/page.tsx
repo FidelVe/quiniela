@@ -15,7 +15,7 @@ export default async function AdminMatchesPage() {
 
   return (
     <section>
-      <header className="flex items-end justify-between mb-10 border-b border-edge pb-4">
+      <header className="flex flex-wrap items-end justify-between gap-4 mb-10 border-b border-edge pb-4">
         <div>
           <p className="text-[10px] uppercase tracking-[0.5em] text-flame mb-2">Todo el calendario</p>
           <h1 className="display text-5xl md:text-7xl text-paper leading-none">Partidos</h1>

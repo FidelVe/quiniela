@@ -11,7 +11,7 @@ export default async function LoginPage({
     <section className="max-w-md mx-auto mt-8 md:mt-16">
       <div className="text-center mb-10">
         <p className="text-[10px] uppercase tracking-[0.5em] text-flame mb-3">Acceso del organizador</p>
-        <h1 className="display text-6xl md:text-7xl text-paper">Administración</h1>
+        <h1 className="display text-5xl md:text-7xl text-paper">Administración</h1>
         <p className="text-[10px] uppercase tracking-[0.4em] text-mute mt-3">
           Quiniela 26 · Solo personal autorizado
         </p>

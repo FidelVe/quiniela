@@ -13,12 +13,12 @@ export default async function LeaderboardPage() {
 
   return (
     <section>
-      <header className="mb-10 md:mb-14 flex items-end justify-between gap-6 border-b border-edge pb-5">
+      <header className="mb-10 md:mb-14 flex flex-col md:flex-row md:items-end md:justify-between gap-6 border-b border-edge pb-5">
         <div>
           <p className="text-[10px] uppercase tracking-[0.5em] text-flame mb-2">La Tabla</p>
           <h1 className="display text-7xl md:text-[9rem] text-paper">Posiciones</h1>
         </div>
-        <div className="flex flex-col items-end gap-3">
+        <div className="flex flex-col items-start md:items-end gap-3">
           <div className="hidden md:block text-right text-xs uppercase tracking-[0.3em] text-mute">
             <p>Fase de grupos</p>
             <p className="mt-1">2026 · Norteamérica</p>
