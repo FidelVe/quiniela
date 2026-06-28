@@ -94,9 +94,9 @@ export async function leaderboard(): Promise<LeaderboardRow[]> {
   //   - Correct win/loss outcome    → +1
   //   - Correct tie outcome         → +2
   //   - Exact score (bonus)         → +3 on top of the outcome points
-  // Ties in points/exactos are resolved manually by the manager: the
-  // participant whose total predicted goals is closest to the official
-  // total goals of the group stage wins (total_goals is shown for that).
+  // Ties are broken by: most exactos, then the participant whose total
+  // predicted goals is closest to the official total goals of the group
+  // stage (smallest absolute difference), then oldest participant id.
   const { rows } = await query<LeaderboardRowRaw>(`
     SELECT
       p.id AS participant_id,
@@ -130,7 +130,15 @@ export async function leaderboard(): Promise<LeaderboardRow[]> {
     LEFT JOIN predictions pr ON pr.participant_id = p.id
     LEFT JOIN matches m ON m.id = pr.match_id
     GROUP BY p.id, p.name
-    ORDER BY points DESC, exact_count DESC, p.id ASC
+    ORDER BY
+      points DESC,
+      exact_count DESC,
+      ABS(
+        COALESCE(SUM(pr.home_score + pr.away_score), 0)
+        - (SELECT COALESCE(SUM(home_score + away_score), 0)
+           FROM matches WHERE status = 'finished')
+      ) ASC,
+      p.id ASC
   `);
   return rows.map((r) => ({
     participant_id: r.participant_id,
